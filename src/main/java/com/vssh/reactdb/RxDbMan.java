@@ -3,7 +3,6 @@ package com.vssh.reactdb;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.CallSuper;
 import android.support.annotation.CheckResult;
@@ -179,9 +178,8 @@ public abstract class RxDbMan extends DbManPlus {
      * @param initialValues
      * @param conflictAlgorithm
      * @return row ID if successful, else -1
-     * @throws SQLException
      */
-    public long insertWithOnConflict(String tableName, ContentValues initialValues, int conflictAlgorithm) throws SQLException {
+    public long insertWithOnConflict(String tableName, ContentValues initialValues, int conflictAlgorithm) {
         long rowId = super.insertWithOnConflict(tableName, initialValues, conflictAlgorithm);
         triggerSubjects(tableName);
         return rowId;
@@ -192,9 +190,8 @@ public abstract class RxDbMan extends DbManPlus {
      * @param tableName
      * @param values
      * @return number of rows inserted
-     * @throws SQLException
      */
-    public int bulkInsert(String tableName, ContentValues[] values) throws SQLException {
+    public int bulkInsert(String tableName, ContentValues[] values) {
         int numInserted = super.bulkInsert(tableName, values);
         triggerSubjects(tableName);
         return numInserted;
@@ -206,9 +203,8 @@ public abstract class RxDbMan extends DbManPlus {
      * @param selection
      * @param selectionArgs
      * @return number of deleted rows
-     * @throws SQLException
      */
-    public int delete(String tableName, String selection, String[] selectionArgs) throws SQLException {
+    public int delete(String tableName, String selection, String[] selectionArgs) {
         int count = super.delete(tableName, selection, selectionArgs);
         triggerSubjects(tableName);
         return count;
@@ -222,10 +218,9 @@ public abstract class RxDbMan extends DbManPlus {
      * @param selectionArgs
      * @param conflictAlgorithm
      * @return number of rows updated
-     * @throws SQLException
      */
     @CallSuper
-    public int updateWithOnConflict(String tableName, ContentValues values, String selection, String[] selectionArgs, int conflictAlgorithm) throws SQLException {
+    public int updateWithOnConflict(String tableName, ContentValues values, String selection, String[] selectionArgs, int conflictAlgorithm) {
         int count = super.updateWithOnConflict(tableName, values, selection, selectionArgs, conflictAlgorithm);
         triggerSubjects(tableName);
         return count;
