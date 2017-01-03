@@ -1,4 +1,4 @@
-package com.vssh.reactdb;
+package com.vssh.rxdbmanplus;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -28,7 +28,7 @@ import rx.subjects.PublishSubject;
  *
  * RxJava extension for DbManPlus. Extend this instead of DbManPlus to use query observables.
  */
-public abstract class RxDbMan extends DbManPlus {
+public abstract class RxDbManPlus extends DbManPlus {
 
     private static List<PublishSubject<String>> mSubjectList = new ArrayList<>();
 
@@ -40,7 +40,7 @@ public abstract class RxDbMan extends DbManPlus {
      * @param name    The database name. This may be anything you like. Adding a file extension is not required and any file extension you would like to use is fine.
      * @param version the database version.
      */
-    public RxDbMan(Context context, String name, int version) {
+    public RxDbManPlus(Context context, String name, int version) {
         super(context, name, version);
     }
 
@@ -63,7 +63,7 @@ public abstract class RxDbMan extends DbManPlus {
      */
     @CheckResult
     public Observable<Cursor> registerRawQuery(final String sql, final String[] selectionArgs, @NonNull final List<String> queryTables, final int debounceTime) {
-        final RxDbMan this_ = this;
+        final RxDbManPlus this_ = this;
         final PublishSubject<String> subject = PublishSubject.create();
         mSubjectList.add(subject);
 
@@ -86,7 +86,7 @@ public abstract class RxDbMan extends DbManPlus {
                     @Override
                     public void call() {
                         if (!subject.hasObservers()) {
-                            RxDbMan.mSubjectList.remove(subject);
+                            RxDbManPlus.mSubjectList.remove(subject);
                         }
                     }
                 });
@@ -126,7 +126,7 @@ public abstract class RxDbMan extends DbManPlus {
     @CheckResult
     public Observable<Cursor> registerQuery(final String tableNames, final String[] projection, final String selection, final String[] selectionArgs, final String groupBy,
                                             final String having, final String sortOrder, final String limit, @Nullable final List<String> queryTables, final int debounceTime) {
-        final RxDbMan this_ = this;
+        final RxDbManPlus this_ = this;
         final List<String> qTables;
         if(queryTables == null) {
             qTables = Arrays.asList(tableNames.split("\\s*,\\s*"));
@@ -159,17 +159,14 @@ public abstract class RxDbMan extends DbManPlus {
                     public void call() {
                         if (!subject.hasObservers()) {
                             //Log.d("unsubscribe from query", tableNames);
-                            RxDbMan.mSubjectList.remove(subject);
+                            RxDbManPlus.mSubjectList.remove(subject);
                         }
                     }
                 });
     }
 
     private void triggerSubjects(final String tableName) {
-        int count = 0;
         for(final PublishSubject<String> sub : mSubjectList) {
-            count++;
-            //Log.d("triggering on table: ", tableName + count);
             Observable
                     .create(new Observable.OnSubscribe<String>() {
                         @Override

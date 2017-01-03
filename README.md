@@ -1,15 +1,15 @@
-# reactdb
-[RxJava](https://github.com/ReactiveX/RxJava/wiki) extension for [dbmanplus](https://github.com/vssh/dbmanplus).
+# RxDbManPlus
+[RxJava](https://github.com/ReactiveX/RxJava/wiki) extension for [DbManPlus](https://github.com/vssh/dbmanplus).
 
 It provides the option of registering queries with the database manager. Registered queries receive updates whenever relevant changes are made to the database.
 
 ## Usage
-`reactdb` is an extension of `dbmanplus`. All the functionality of `dbmanplus` is also available while using `reactdb`.
-In addition `reactdb` provides the possibility of registering your queries to receive updates as the database is updated. It uses the RxJava library to provide this functionality.
-**NOTE: `Rxjava` is required to use `reactdb`**
+`RxDbManPlus` is an extension of `DbManPlus`. All the functionality of `DbManPlus` is also available while using `RxDbManPlus`.
+In addition `RxDbManPlus` provides the possibility of registering your queries to receive updates as the database is updated. It uses the RxJava library to provide this functionality.
+**NOTE: `Rxjava` is required to use `RxDbManPlus`**
 
 ### Extend RxDbMan class
-Extend `RxDbMan` class instead of `DbManPlus`. The format is the same. Check `dbmanplus` documentation for usage.
+Extend `RxDbManPlus` class instead of `DbManPlus`. The format is the same. Check `DbManPlus` documentation for usage.
 
 ### registerQuery
 `registerQuery` takes the same parameters as `query` with a few additions. If `tableNames` is a single table or a comma separated string of table names, `queryTables` can be null. Otherwise, it should be a list of tables, anz changes to which will perform a new query. `debounceTime` is the minimum time between queries in milliseconds. It should be set to the maximum rate the observer can handle.
