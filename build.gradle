@@ -18,8 +18,8 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:26.1.0'
-    compile 'io.reactivex:rxjava:1.2.2'
-    compile project(':dbmanplus')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'io.reactivex:rxjava:1.2.2'
+    implementation project(':dbmanplus')
 }
